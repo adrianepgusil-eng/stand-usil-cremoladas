@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escuela de Posgrado USIL — Inscripción</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @keyframes bgShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1rem 3rem;
+      background: linear-gradient(135deg, #03045e, #023e8a, #0077b6, #0096c7, #023e8a, #03045e);
+      background-size: 400% 400%;
+      animation: bgShift 10s ease infinite;
+    }
+
+    /* ── Card ── */
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 20px;
+      padding: 2rem 1.75rem;
+      animation: fadeUp .45s ease both;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .header .emoji { font-size: 40px; display: block; margin-bottom: .4rem; }
+    .header h1 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: .01em;
+    }
+    .header p {
+      font-size: 13px;
+      color: rgba(255,255,255,.72);
+      margin-top: .3rem;
+      line-height: 1.5;
+    }
+
+    /* ── Fields ── */
+    .field { margin-bottom: .9rem; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 5px;
+      letter-spacing: .02em;
+    }
+    .field label .req { color: #90e0ef; margin-left: 2px; }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px 13px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .18s, background .18s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input::placeholder { color: rgba(255,255,255,.4); }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.6)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 36px;
+    }
+
+    /* Fix select option colors (browser-rendered, not styleable in dark) */
+    .field select option {
+      background: #023e8a;
+      color: #fff;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(144, 224, 239, 0.7);
+      background: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 0 3px rgba(144, 224, 239, 0.15);
+    }
+
+    .field.has-error input,
+    .field.has-error select {
+      border-color: rgba(255, 130, 130, 0.8);
+      background: rgba(255, 80, 80, 0.1);
+    }
+
+    .err-msg {
+      font-size: 11px;
+      color: #ffb3b3;
+      margin-top: 4px;
+      display: none;
+    }
+    .field.has-error .err-msg { display: block; }
+
+    /* ── Checkbox row ── */
+    .check-wrap {
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 10px;
+      padding: 11px 13px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      margin-bottom: .4rem;
+      transition: background .18s;
+    }
+    .check-wrap:hover { background: rgba(255,255,255,.15); }
+    .check-wrap.has-error { border-color: rgba(255,130,130,.8); background: rgba(255,80,80,.1); }
+
+    .check-wrap input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      accent-color: #90e0ef;
+      cursor: pointer;
+    }
+    .check-wrap span {
+      font-size: 12.5px;
+      color: rgba(255,255,255,.85);
+      line-height: 1.55;
+    }
+    .check-wrap span strong { color: #fff; }
+
+    .err-check {
+      font-size: 11px;
+      color: #ffb3b3;
+      margin-bottom: .75rem;
+      display: none;
+    }
+    .err-check.visible { display: block; }
+
+    /* ── Submit button ── */
+    .btn-submit {
+      width: 100%;
+      margin-top: .6rem;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      color: #023e8a;
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      letter-spacing: .01em;
+    }
+    .btn-submit:hover  { opacity: .92; }
+    .btn-submit:active { transform: scale(.98); }
+    .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    /* ── Result screens ── */
+    .result {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .result .r-icon { font-size: 64px; margin-bottom: 1rem; display: block; }
+    .result .r-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: .5rem;
+    }
+    .result .r-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,.82);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .dup-box {
+      background: rgba(180, 0, 0, 0.30);
+      border: 1px solid rgba(255,180,180,.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 1.25rem;
+      font-size: 13px;
+      color: rgba(255,255,255,.88);
+      line-height: 1.55;
+    }
+
+    .btn-back {
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 10px;
+      padding: 10px 28px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-back:hover { background: rgba(255,255,255,.28); }
+
+    /* ── Screens ── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 1.25rem;
+      font-size: 11.5px;
+      color: rgba(255,255,255,.45);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FORM SCREEN -->
+  <div class="card screen active" id="screen-form">
+    <div class="header">
+      <span class="emoji">🍧</span>
+      <h1>Escuela de Posgrado USIL</h1>
+      <p>Completa el formulario y llévate una cremolada gratis</p>
+    </div>
+
+    <div class="field" id="f-nombre">
+      <label>Nombre completo <span class="req">*</span></label>
+      <input type="text" id="inp-nombre" placeholder="Ej. María García López" autocomplete="off" />
+      <div class="err-msg">Este campo es obligatorio.</div>
+    </div>
+
+    <div class="field" id="f-dni">
+      <label>DNI <span class="req">*</span></label>
+      <input type="text" id="inp-dni" placeholder="8 dígitos" maxlength="8" inputmode="numeric" autocomplete="off" />
+      <div class="err-msg" id="err-dni-txt">Ingresa un DNI válido de 8 dígitos.</div>
+    </div>
+
+    <div class="field" id="f-email">
+      <label>Correo electrónico <span class="req">*</span></label>
+      <input type="email" id="inp-email" placeholder="correo@ejemplo.com" autocomplete="off" />
+      <div class="err-msg">Ingresa un correo válido.</div>
+    </div>
+
+    <div class="field" id="f-tel">
+      <label>Número telefónico <span class="req">*</span></label>
+      <input type="tel" id="inp-tel" placeholder="Ej. 987654321" maxlength="12" inputmode="numeric" autocomplete="off" />
+      <div class="err-msg">Este campo es obligatorio.</div>
+    </div>
+
+    <div class="field" id="f-grado">
+      <label>Grado de instrucción <span class="req">*</span></label>
+      <select id="inp-grado">
+        <option value="">Selecciona una opción</option>
+        <option>Egresado</option>
+        <option>Bachiller</option>
+        <option>Magister</option>
+        <option>Doctor</option>
+        <option>Otro</option>
+      </select>
+      <div class="err-msg">Selecciona una opción.</div>
+    </div>
+
+    <div class="field" id="f-programa">
+      <label>Programa de interés <span class="req">*</span></label>
+      <select id="inp-programa">
+        <option value="">Selecciona una opción</option>
+        <option>Cursos de especialización</option>
+        <option>Programas especializados</option>
+        <option>Maestrías</option>
+        <option>Doctorados</option>
+        <option>Segundas especialidades</option>
+      </select>
+      <div class="err-msg">Selecciona una opción.</div>
+    </div>
+
+    <div class="field" id="f-cargo">
+      <label>Cargo actual <span class="req">*</span></label>
+      <select id="inp-cargo">
+        <option value="">Selecciona una opción</option>
+        <option>Practicante</option>
+        <option>Asistente</option>
+        <option>Analista</option>
+        <option>Coordinador/a</option>
+        <option>Especialista</option>
+        <option>Supervisor/a</option>
+        <option>Jefe/a de área</option>
+        <option>Gerente</option>
+        <option>Director/a</option>
+        <option>Docente</option>
+        <option>Independiente / Emprendedor/a</option>
+        <option>Otro</option>
+      </select>
+      <div class="err-msg">Selecciona una opción.</div>
+    </div>
+
+    <label class="check-wrap" id="check-row" for="inp-acepta">
+      <input type="checkbox" id="inp-acepta" />
+      <span>Acepto recibir información sobre programas, eventos y noticias de la <strong>Escuela de Posgrado USIL</strong>.</span>
+    </label>
+    <div class="err-check" id="err-acepta">Debes aceptar para continuar.</div>
+
+    <button class="btn-submit" id="btn-enviar" onclick="handleSubmit()">
+      Inscribirme y recibir mi cremolada 🍧
+    </button>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="card screen" id="screen-success">
+    <div class="result">
+      <span class="r-icon">✅</span>
+      <div class="r-title" id="success-title">¡Listo, te acabas de inscribir!</div>
+      <div class="r-sub">
+        Muchas gracias por unirte al boletín de la<br>
+        <strong style="color:#fff;">Escuela de Posgrado USIL</strong>.<br><br>
+        Ya puedes pasar a recoger tu cremolada 🍧
+      </div>
+      <button class="btn-back" onclick="showForm()">← Nuevo registro</button>
+    </div>
+  </div>
+
+  <!-- DUPLICATE SCREEN -->
+  <div class="card screen" id="screen-duplicate">
+    <div class="result">
+      <span class="r-icon">⚠️</span>
+      <div class="r-title">Ya estás inscrito/a</div>
+      <div class="dup-box" id="dup-msg"></div>
+      <div class="r-sub">Solo se permite una inscripción por persona.<br>¡Gracias por tu interés!</div>
+      <button class="btn-back" onclick="showForm()">← Volver</button>
+    </div>
+  </div>
+
+  <footer>Escuela de Posgrado USIL &nbsp;·&nbsp; Graduaciones 2025</footer>
+
+  <script>
+    // ── CONFIGURACIÓN ──────────────────────────────────────────
+    // Pega aquí la URL de tu Apps Script Web App después de desplegarla
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby5oUDTeaFDZxCj2CMw2dLBvX95ShElM19DgOPXMSFrcUYfwX1g7K4GmfRWLRmSMYzV/exec';
+    // ──────────────────────────────────────────────────────────
+
+    function setError(fieldId, show, msg) {
+      const el = document.getElementById(fieldId);
+      if (!el) return;
+      if (show) {
+        el.classList.add('has-error');
+        if (msg) { const e = el.querySelector('.err-msg'); if (e) e.textContent = msg; }
+      } else {
+        el.classList.remove('has-error');
+      }
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showForm() {
+      ['inp-nombre','inp-dni','inp-email','inp-tel'].forEach(id => document.getElementById(id).value = '');
+      ['inp-grado','inp-programa','inp-cargo'].forEach(id => document.getElementById(id).selectedIndex = 0);
+      document.getElementById('inp-acepta').checked = false;
+      ['f-nombre','f-dni','f-email','f-tel','f-grado','f-programa','f-cargo'].forEach(id => setError(id, false));
+      document.getElementById('check-row').classList.remove('has-error');
+      document.getElementById('err-acepta').classList.remove('visible');
+      showScreen('screen-form');
+    }
+
+    async function handleSubmit() {
+      const nombre   = document.getElementById('inp-nombre').value.trim();
+      const dni      = document.getElementById('inp-dni').value.trim();
+      const email    = document.getElementById('inp-email').value.trim();
+      const tel      = document.getElementById('inp-tel').value.trim();
+      const grado    = document.getElementById('inp-grado').value;
+      const programa = document.getElementById('inp-programa').value;
+      const cargo    = document.getElementById('inp-cargo').value;
+      const acepta   = document.getElementById('inp-acepta').checked;
+
+      let ok = true;
+
+      setError('f-nombre',  !nombre);                                          if (!nombre)   ok = false;
+      const dniOk = /^\d{8}$/.test(dni);
+      setError('f-dni',     !dniOk, 'Ingresa un DNI válido de 8 dígitos.');   if (!dniOk)    ok = false;
+      const emailOk = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      setError('f-email',   !emailOk);                                         if (!emailOk)  ok = false;
+      setError('f-tel',     !tel);                                             if (!tel)      ok = false;
+      setError('f-grado',   !grado);                                           if (!grado)    ok = false;
+      setError('f-programa',!programa);                                        if (!programa) ok = false;
+      setError('f-cargo',   !cargo);                                           if (!cargo)    ok = false;
+
+      if (!acepta) {
+        document.getElementById('check-row').classList.add('has-error');
+        document.getElementById('err-acepta').classList.add('visible');
+        ok = false;
+      } else {
+        document.getElementById('check-row').classList.remove('has-error');
+        document.getElementById('err-acepta').classList.remove('visible');
+      }
+
+      if (!ok) return;
+
+      const btn = document.getElementById('btn-enviar');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      try {
+        const params = new URLSearchParams({ nombre, dni, email, telefono: tel, grado, programa, cargo, acepta: 'Sí' });
+        const res  = await fetch(`${APPS_SCRIPT_URL}?${params}`, { method: 'GET' });
+        const data = await res.json();
+
+        if (data.status === 'duplicate') {
+          document.getElementById('dup-msg').textContent =
+            `El DNI ${dni} ya fue registrado a nombre de ${data.nombre}.`;
+          showScreen('screen-duplicate');
+        } else if (data.status === 'ok') {
+          document.getElementById('success-title').textContent =
+            `¡Listo, ${nombre.split(' ')[0]}! Te acabas de inscribir.`;
+          showScreen('screen-success');
+        } else {
+          alert('Ocurrió un error al enviar. Por favor inténtalo de nuevo.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error de conexión. Verifica tu internet e inténtalo de nuevo.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Inscribirme y recibir mi cremolada 🍧';
+      }
+    }
+  </script>
+</body>
+</html>
