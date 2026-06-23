@@ -1,0 +1,25 @@
+{
+  "name": "stand-usil-cremoladas",
+  "version": "1.0.0",
+  "description": "Formulario de inscripción al boletín informativo para el stand de cremoladas. Desplegado en GitHub Pages con validación de DNI duplicado vía Google Apps Script y registro automático en Google Sheets.",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server . -o",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianepgusil-eng/stand-usil-cremoladas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/adrianepgusil-eng/stand-usil-cremoladas/issues"
+  },
+  "homepage": "https://github.com/adrianepgusil-eng/stand-usil-cremoladas#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
